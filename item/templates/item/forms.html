@@ -1,0 +1,37 @@
+{% extends "core/base.html" %}
+
+{% block title %}
+{{title}}
+{% endblock  %}
+
+{% block content %}
+<h1 class="mb-8 text-4xl font-semibold text-gray-800">{{title}}</h1>
+
+<form method="post" action="." enctype="multipart/form-data" class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg space-y-6">
+    {% csrf_token %}
+    <div class="space-y-4">
+        {{ form.as_p }}
+    </div>
+
+    <!-- Display form errors if any -->
+    {% if form.errors or form.non_field_errors %}
+    <div class="mb-4 p-4 bg-red-100 text-red-600 rounded-lg border border-red-300">
+        <ul class="list-disc pl-6 space-y-2">
+            {% for field in form %}
+            {% if field.errors %}
+            <li class="text-sm">{{ field.label }}: {{ field.errors }}</li>
+            {% endif %}
+            {% endfor %}
+            {% if form.non_field_errors %}
+            <li class="text-sm">{{ form.non_field_errors }}</li>
+            {% endif %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <!-- Submit button -->
+    <button type="submit" class="w-full py-4 text-lg font-semibold text-white bg-teal-500 rounded-lg shadow-lg hover:bg-teal-600 transition duration-300">
+        Submit
+    </button>
+</form>
+{% endblock %}
